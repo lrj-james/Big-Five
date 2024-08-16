@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+{% block main %}
+    <div class="row justify-content-center mt-5">
+        <div class="col-12 col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">你的測驗結果</h4>
+                    <div class="text-center mb-4">
+                        <img
+                            src="data:image/png;base64,{{ src }}"
+                            alt="Radar Chart"
+                            class="img-fluid"
+                        />
+                    </div>
+
+                    <table class="table table-bordered mt-4">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">人格特質</th>
+                                <th scope="col">得分</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>開放性 (Openness)</td>
+                                <td>{{ traits.op }}</td>
+                            </tr>
+                            <tr>
+                                <td>盡責性 (Conscientiousness)</td>
+                                <td>{{ traits.cs }}</td>
+                            </tr>
+                            <tr>
+                                <td>外向性 (Extraversion)</td>
+                                <td>{{ traits.ex }}</td>
+                            </tr>
+                            <tr>
+                                <td>親和性 (Agreeableness)</td>
+                                <td>{{ traits.ag }}</td>
+                            </tr>
+                            <tr>
+                                <td>神經質 (Neuroticism)</td>
+                                <td>{{ traits.nu }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <form action="/" method="get" class="mt-4 text-center">
+                        <button type="submit" class="btn btn-primary">
+                            再測一次
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
