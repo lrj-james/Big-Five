@@ -77,6 +77,8 @@ def generate_radar_chart(traits):
 @app.route("/", methods=['GET', 'POST'])
 def index():
     
+    global questions
+    
     if request.method == "GET":
     
         # 歸零變數
@@ -99,7 +101,6 @@ def index():
         
         con.close()
         
-        global questions
         questions = []
         count = 1
         for row in rows:
