@@ -37,11 +37,7 @@
                             id="q{{ row.count }}yes"
                             value="y"
                             autocomplete="off"
-                            {%
-                                if
-                                row.count=""
-                                ="25"
-                            %}
+                            {% if row.count == 25 %}
                                 onclick="showSubmit();"
                             {% else %}
                                 onclick="next({{ row.count }});"
@@ -56,11 +52,7 @@
                             id="q{{ row.count }}no"
                             value="n"
                             autocomplete="off"
-                            {%
-                                if
-                                row.count=""
-                                ="25"
-                            %}
+                            {% if row.count == 25 %}
                                 onclick="showSubmit();"
                             {% else %}
                                 onclick="next({{ row.count }});"
@@ -94,12 +86,13 @@
                     {% endif %}
 
                     {% if row.count == 25 %}
-                        <input
-                            type="submit"
-                            id="submit"
-                            class="btn btn-success"
-                            value="提交"
-                        />
+                        <div id="submit">
+                            <input
+                                type="submit"
+                                class="btn btn-success"
+                                value="提交"
+                            />
+                        </div>
                     {% endif %}
                 </div>
             </div>
