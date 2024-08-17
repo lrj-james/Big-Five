@@ -1,6 +1,6 @@
 // 開始測驗
 function start() {
-    document.getElementById('des').style.display = 'none';
+    document.getElementById('description').style.display = 'none';
     document.getElementById('q1').style.display = 'block';
 }
 
