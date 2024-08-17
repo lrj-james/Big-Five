@@ -59,7 +59,11 @@ def generate_radar_chart(traits):
         layout = go.Layout(
             title = go.layout.Title(text='五大性格中的占比'),
             polar = {'radialaxis': {'range': [-5, 5], 'visible': True}},
-            showlegend = True
+            showlegend = True,
+            font = dict(
+                family = "SimHei, Arial",
+                size = 14
+            )
         )
     )
 

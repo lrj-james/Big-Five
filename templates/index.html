@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block main %}
-    <div style="height: 50px"></div>
+    <div style="height: 4rem"></div>
     <section id="des" class="mb-5">
         <div class="row">
             <div class="col-12">
@@ -25,9 +25,13 @@
 
     <form action="/" method="post">
         {% for row in questions %}
-            <div id="q{{ row.count }}" style="display: none" class="mb-5">
+            <div
+                id="q{{ row.count }}"
+                style="display: none"
+                class="mb-5 ms-5 me-5 container-md"
+            >
                 <h4 class="text-primary">第{{ row.count }}題</h4>
-                <h5>{{ row.question }}</h5>
+                <h5 style="height: 4rem">{{ row.question }}</h5>
 
                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
                     <label class="btn btn-outline-primary">
@@ -62,7 +66,7 @@
                     </label>
                 </div>
 
-                <div style="height: 20px"></div>
+                <div style="height: 2rem"></div>
 
                 <div class="d-flex justify-content-between">
                     {% if row.count > 1 %}
@@ -71,7 +75,7 @@
                             class="btn btn-secondary"
                             onclick="previous({{ row.count }});"
                         >
-                            上一題
+                            回上一題
                         </button>
                     {% endif %}
 
