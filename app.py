@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request
 import sqlite3
 import random
-import plotly.graph_objs as go
-import plotly.io as pio
+import matplotlib.pyplot as plt
+import matplotlib.font_manager as fm
+import numpy as np
 import base64
 from io import BytesIO
 
@@ -96,6 +97,15 @@ def calc_result():
 ## TODO: 中文字型顯示錯誤
 def generate_radar_chart():
     
+    # 手動設置字型路徑
+    font_path = '/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc'  # 替換為你的字型文件路徑
+    font_prop = fm.FontProperties(fname=font_path)
+    
+    # 設置全局字型
+    plt.rcParams['font.sans-serif'] = [font_prop.get_name()]
+    # 解決負號顯示問題
+    plt.rcParams['axes.unicode_minus'] = False  
+    
     categories = [
         '開放性 (Openness)', 
         '盡責性 (Conscientiousness)', 
@@ -103,30 +113,27 @@ def generate_radar_chart():
         '親和性 (Agreeableness)', 
         '神經質 (Neuroticism)'
     ]
-    categories = [*categories, categories[0]]
-
+    N = len(categories)
+    
     user_results = [traits['op'], traits['cs'], traits['ex'], traits['ag'], traits['nu']]
     user_results = [min(max(value, -5), 5) for value in user_results]
-    user_results = [*user_results, user_results[0]]
+    user_results += user_results[:1]  # 閉合多邊形
 
-    fig = go.Figure(
-        data = [
-            go.Scatterpolar(r=user_results, theta=categories, fill='toself', name='User Results'),
-        ],
-        layout = go.Layout(
-            title = go.layout.Title(text='五大性格中的占比'),
-            polar = {'radialaxis': {'range': [-5, 5], 'visible': True}},
-            showlegend = True,
-            font = dict(
-                family = "SimHei, Arial", # GPT建議，無效
-                size = 14
-            )
-        )
-    )
+    angles = [n / float(N) * 2 * np.pi for n in range(N)]
+    angles += angles[:1]
+
+    fig, ax = plt.subplots(figsize=(6, 6), subplot_kw=dict(polar=True))
+    ax.set_theta_offset(np.pi / 2)
+    ax.set_theta_direction(-1)
+
+    plt.xticks(angles[:-1], categories)
+
+    ax.plot(angles, user_results, linewidth=1, linestyle='solid')
+    ax.fill(angles, user_results, 'b', alpha=0.1)
 
     # 將圖片保存為 BytesIO 對象
     img_buffer = BytesIO()
-    pio.write_image(fig, img_buffer, format='png')
+    plt.savefig(img_buffer, format='png')
     img_buffer.seek(0)
 
     # 將圖片轉換為 Base64 字串
