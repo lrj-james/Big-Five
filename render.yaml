@@ -1,0 +1,9 @@
+services:
+    - type: web
+      name: my-web-service
+      env: python
+      buildCommand: pip install -r requirements.txt
+      startCommand: python app.py
+      build:
+          commands:
+              - ./install_fonts.sh
