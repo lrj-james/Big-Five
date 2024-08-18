@@ -102,7 +102,11 @@ def generate_radar_chart():
     font_prop = fm.FontProperties(fname=font_path)
     
     # 設置全局字型
-    plt.rcParams['font.sans-serif'] = [font_prop.get_name()]
+    try:
+        plt.rcParams['font.sans-serif'] = [font_prop.get_name()]
+    except:
+        print('字型設置失敗')
+        
     # 解決負號顯示問題
     plt.rcParams['axes.unicode_minus'] = False  
     
