@@ -1,109 +1,109 @@
 {% extends "layout.html" %}
 {% block main %}
-    <div style="height: 4rem"></div>
-    <section id="description" class="mb-5">
-        <div class="row">
-            <div class="col-12">
-                <h5 class="text-info">
-                    五大人格介紹：在 1980 年代，人格心理學家 Costa & McCrae
-                    在馬里蘭國際健康組織中對老人現象進行研究，然後研究發現五種具代表性的人格因素：
-                    開放性(Openness)、盡責性(Conscientiousness)、外向性(Extraversion)、
-                    親和性(Agreeableness)、神經質(Neuroticism)。
-                    並且將各因素歸納成五大人格特質、心理契約實踐與組織公民行為關聯性探討。
-                </h5>
-                <h5 class="text-info">
-                    測驗介紹：本測驗共一輪25題，每次的答題題庫皆由電腦隨機抽選組成，
-                    因此使用者可以多次重複進行此測驗。
-                </h5>
-                <p class="text-warning">
-                    ⚠️警告：本測驗題目由AI生成，結果僅供參考。
-                </p>
-            </div>
-            <div class="col-12 text-center mt-4">
-                <button class="btn btn-primary" onclick="start();">
-                    開始測驗
-                </button>
-            </div>
-        </div>
-    </section>
+	<div style="height: 4rem"></div>
+	<section id="description" class="mb-5">
+		<div class="row">
+			<div class="col-12">
+				<h5 class="text-info">
+					五大人格介紹：在 1980 年代，人格心理學家 Costa & McCrae
+					在馬里蘭國際健康組織中對老人現象進行研究，然後研究發現五種具代表性的人格因素：
+					開放性(Openness)、盡責性(Conscientiousness)、外向性(Extraversion)、
+					親和性(Agreeableness)、神經質(Neuroticism)。
+					並且將各因素歸納成五大人格特質、心理契約實踐與組織公民行為關聯性探討。
+				</h5>
+				<h5 class="text-info">
+					測驗介紹：本測驗共一輪25題，每次的答題題庫皆由電腦隨機抽選組成，
+					因此使用者可以多次重複進行此測驗。
+				</h5>
+				<p class="text-warning">
+					⚠️警告：本測驗題目由AI生成，結果僅供參考。
+				</p>
+			</div>
+			<div class="col-12 text-center mt-4">
+				<button class="btn btn-primary" onclick="start();">
+					開始測驗
+				</button>
+			</div>
+		</div>
+	</section>
 
-    <form action="/" method="post">
-        {% for row in questions %}
-            <div
-                id="q{{ row.count }}"
-                style="display: none"
-                class="mb-5 ms-5 me-5 container-md"
-            >
-                <h4 class="text-primary">第{{ row.count }}題</h4>
-                <h5 style="height: 4rem">{{ row.question }}</h5>
+	<form action="/" method="post">
+		{% for row in questions %}
+			<div
+				id="q{{ row.count }}"
+				style="display: none"
+				class="mb-5 ms-5 me-5 container-md"
+			>
+				<h4 class="text-primary">第{{ row.count }}題</h4>
+				<h5 style="height: 4rem">{{ row.question }}</h5>
 
-                <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                    <label class="btn btn-outline-primary">
-                        <input
-                            type="radio"
-                            name="q{{ row.count }}_choice"
-                            id="q{{ row.count }}yes"
-                            value="y"
-                            autocomplete="off"
-                            {% if row.count == 25 %}
-                                onclick="showSubmit();"
-                            {% else %}
-                                onclick="next({{ row.count }});"
-                            {% endif %}
-                        />
-                        是
-                    </label>
-                    <label class="btn btn-outline-primary">
-                        <input
-                            type="radio"
-                            name="q{{ row.count }}_choice"
-                            id="q{{ row.count }}no"
-                            value="n"
-                            autocomplete="off"
-                            {% if row.count == 25 %}
-                                onclick="showSubmit();"
-                            {% else %}
-                                onclick="next({{ row.count }});"
-                            {% endif %}
-                        />
-                        否
-                    </label>
-                </div>
+				<div class="btn-group btn-group-toggle" data-toggle="buttons">
+					<label class="btn btn-outline-primary">
+						<input
+							type="radio"
+							name="q{{ row.count }}_choice"
+							id="q{{ row.count }}yes"
+							value="y"
+							autocomplete="off"
+							{% if row.count == 25 %}
+								onclick="showSubmit();"
+							{% else %}
+								onclick="next({{ row.count }});"
+							{% endif %}
+						/>
+						是
+					</label>
+					<label class="btn btn-outline-primary">
+						<input
+							type="radio"
+							name="q{{ row.count }}_choice"
+							id="q{{ row.count }}no"
+							value="n"
+							autocomplete="off"
+							{% if row.count == 25 %}
+								onclick="showSubmit();"
+							{% else %}
+								onclick="next({{ row.count }});"
+							{% endif %}
+						/>
+						否
+					</label>
+				</div>
 
-                <div style="height: 2rem"></div>
+				<div style="height: 2rem"></div>
 
-                <div class="d-flex justify-content-between">
-                    {% if row.count > 1 %}
-                        <button
-                            type="button"
-                            class="btn btn-secondary"
-                            onclick="previous({{ row.count }});"
-                        >
-                            回上一題
-                        </button>
-                    {% endif %}
+				<div class="d-flex justify-content-between">
+					{% if row.count > 1 %}
+						<button
+							type="button"
+							class="btn btn-secondary"
+							onclick="previous({{ row.count }});"
+						>
+							回上一題
+						</button>
+					{% endif %}
 
-                    {% if row.count < 25 %}
-                        <button
-                            type="button"
-                            class="btn btn-primary"
-                            onclick="next({{ row.count }});"
-                        >
-                            下一題
-                        </button>
-                    {% endif %}
+					{% if row.count < 25 %}
+						<button
+							type="button"
+							class="btn btn-primary"
+							onclick="next({{ row.count }});"
+						>
+							下一題
+						</button>
+					{% endif %}
 
-                    {% if row.count == 25 %}
-                        <div id="submit">
-                            <input
-                                type="submit"
-                                class="btn btn-success"
-                                value="提交"
-                            />
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
-        {% endfor %}
-    </form>
+					{% if row.count == 25 %}
+						<div id="submit">
+							<input
+								type="submit"
+								class="btn btn-success"
+								value="提交"
+							/>
+						</div>
+					{% endif %}
+				</div>
+			</div>
+		{% endfor %}
+	</form>
 {% endblock main %}

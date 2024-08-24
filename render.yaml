@@ -1,9 +1,0 @@
-services:
-    - type: web
-      name: Big-Five
-      env: python
-      buildCommand: pip install -r requirements.txt
-      startCommand: gunicorn app:app
-      build:
-          commands:
-              - ./install_fonts.sh
