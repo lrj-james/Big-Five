@@ -24,7 +24,7 @@ traits = {
 
 
 # 製作題目列表，共25題隨機排列
-def make_qlist():
+def make_qlist() -> list:
 
     qlist = []
 
@@ -39,7 +39,7 @@ def make_qlist():
     return qlist
 
 
-def generate_questions():
+def generate_questions() -> list:
 
     qlist = make_qlist()
 
@@ -78,7 +78,7 @@ def generate_questions():
 
 
 # 計算測驗結果
-def calc_result(questions):
+def calc_result(questions: list):
 
     # 接收使用者的回答
     for i in range(1, 26):
@@ -95,7 +95,7 @@ def calc_result(questions):
 
 
 # 生成雷達圖
-def generate_radar_chart():
+def generate_radar_chart() -> str:
 
     # 手動設置字型路徑
     font_path = "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc"
@@ -136,7 +136,7 @@ def generate_radar_chart():
     ax.set_theta_offset(np.pi / 2)
     ax.set_theta_direction(-1)
 
-    plt.xticks(angles[:-1], categories)
+    plt.xticks(angles[:-1], categories, fontsize=16)
     
     # 設置雷達圖的上下限
     ax.set_ylim(-5, 5)
