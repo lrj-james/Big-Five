@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session
+import secrets
 import sqlite3
 import random
 import matplotlib.pyplot as plt
@@ -9,16 +10,17 @@ from io import BytesIO
 
 
 app = Flask(__name__)
+app.secret_key = secrets.token_hex(16)
 
 
-# 公域變數
+# 定義人格特質變數
 traits = {
-    "op": 0,  # openness
-    "cs": 0,  # conscientiousness
-    "ex": 0,  # extraversion
-    "ag": 0,  # agreeableness
-    "nu": 0,  # neuroticism
-}
+            "op": 0,  # openness
+            "cs": 0,  # conscientiousness
+            "ex": 0,  # extraversion
+            "ag": 0,  # agreeableness
+            "nu": 0,  # neuroticism
+        }
 
 
 # 製作題目列表，共25題隨機排列
@@ -61,7 +63,6 @@ def generate_questions():
     # index_code 為題目的4位編號
     # questions為題目字串本身
     # score表示該題表示該人格的加分或減分
-    global questions
     questions = []
     count = 1
     for row in rows:
@@ -77,7 +78,7 @@ def generate_questions():
 
 
 # 計算測驗結果
-def calc_result():
+def calc_result(questions):
 
     # 接收使用者的回答
     for i in range(1, 26):
@@ -94,11 +95,10 @@ def calc_result():
 
 
 # 生成雷達圖
-## TODO: 中文字型顯示錯誤
 def generate_radar_chart():
 
     # 手動設置字型路徑
-    font_path = "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc"  # 替換為你的字型文件路徑
+    font_path = "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc"
     font_prop = fm.FontProperties(fname=font_path)
 
     # 設置全局字型
@@ -137,6 +137,9 @@ def generate_radar_chart():
     ax.set_theta_direction(-1)
 
     plt.xticks(angles[:-1], categories)
+    
+    # 設置雷達圖的上下限
+    ax.set_ylim(-5, 5)
 
     ax.plot(angles, user_results, linewidth=1, linestyle="solid")
     ax.fill(angles, user_results, "b", alpha=0.1)
@@ -154,22 +157,21 @@ def generate_radar_chart():
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-
     if request.method == "GET":
-
+        
         # 歸零人格特質變數
         for trait in traits:
             traits[trait] = 0
 
         questions = generate_questions()
+        session['questions'] = questions
 
         return render_template("index.html", questions=questions)
 
     # 傳送表單則計算測驗結果
     else:
-
-        calc_result()
-
+        questions = session.get('questions')
+        calc_result(questions)
         src = generate_radar_chart()
 
         return render_template("result.html", traits=traits, src=src)
