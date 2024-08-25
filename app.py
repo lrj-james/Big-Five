@@ -136,7 +136,8 @@ def generate_radar_chart() -> str:
     ax.set_theta_offset(np.pi / 2)
     ax.set_theta_direction(-1)
 
-    plt.xticks(angles[:-1], categories, fontsize=16)
+    plt.xticks(angles[:-1], categories, fontsize=14)
+    ax.tick_params(pad=15)
     
     # 設置雷達圖的上下限
     ax.set_ylim(-5, 5)
