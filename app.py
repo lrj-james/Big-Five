@@ -147,7 +147,7 @@ def generate_radar_chart() -> str:
 
     # 將圖片保存為 BytesIO 對象
     img_buffer = BytesIO()
-    plt.savefig(img_buffer, format="png")
+    plt.savefig(img_buffer, format="png", dpi=300)
     img_buffer.seek(0)
 
     # 將圖片轉換為 Base64 字串
