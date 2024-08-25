@@ -111,11 +111,11 @@ def generate_radar_chart():
     plt.rcParams["axes.unicode_minus"] = False
 
     categories = [
-        "開放性 (Openness)",
-        "盡責性 (Conscientiousness)",
-        "外向性 (Extraversion)",
-        "親和性 (Agreeableness)",
-        "神經質 (Neuroticism)",
+        "開放性",
+        "盡責性",
+        "外向性",
+        "親和性",
+        "神經質",
     ]
     N = len(categories)
 
